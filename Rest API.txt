@@ -1,0 +1,64 @@
+User
+----
+POST /api/user/auth/login
+-> {username: "username", password: "hashed password"}
+<- User's token
+
+POST /api/user/auth/register
+-> {username: "username",
+    password: "hashed password",
+    email: "",
+    name: "",
+    role: "ADMIN"|"PATIENT"}
+<- User's token
+
+POST /api/user/doctor/add
+-> Token & {id: <UserID>}
+<- HTTP Status Code
+
+POST /api/user/doctor/remove
+-> Token & {id: <UserID>}
+<- HTTP Status Code
+
+POST /api/user/patient/add
+-> Token & {id: <UserID>}
+<- HTTP Status Code
+
+POST /api/user/patient/remove
+-> Token & {id: <UserID>}
+<- HTTP Status Code
+
+Data
+----
+GET /api/user/vitals/patient_list/<UserID> where UserID is doctor's UserID
+-> Token
+<- {[UserID]}
+
+GET /api/user/vitals/<UserID>
+-> Token
+<- {ECG: [<timestamp>: <value>],
+    HR: [<timestamp>: <value>]
+    SpO2: [<timestamp>: <value>]}
+
+PUT /api/user/vitals/<UserID>
+-> Token & {ECG: [<timestamp>: <value>],
+    HR: [<timestamp>: <value>]
+    SpO2: [<timestamp>: <value>]}
+<- HTTP Status Code
+
+
+Bluetooth Comms:
+
+struct ecgData {
+    char type = always 0000
+    uint32_t UnixTimestamp
+    uint8_t ecg[3]
+    uint8_t spo2[3]
+}
+
+struct tempData {
+    char type = always FFFF
+    uint32_t UnixTimestamp
+    uint16_t TempBody
+    uint16_t TempAmbient
+}

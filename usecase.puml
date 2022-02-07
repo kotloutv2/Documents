@@ -1,0 +1,36 @@
+@startuml RVMS
+left to right direction
+actor Patient as patient
+actor Admin as admin
+
+rectangle App {
+    usecase "Log In" as LogIn
+    usecase "Acquire Device Data" as AcquireDeviceData
+    usecase "See Own Graphs" as SeeOwnGraphs
+    usecase "See Patients' Graphs" as SeePatientsGraphs
+    usecase "Add Doctor" as AddDoctor
+    usecase "Remove Doctor" as RemoveDoctor
+    usecase "Remove Patient" as RemovePatient
+}
+
+rectangle Device {
+    usecase "Charge" as ChargeDevice
+    usecase "Wear" as WearDevice
+    usecase "Sync" as SyncDevice
+}
+
+patient --> LogIn
+patient --> AcquireDeviceData
+patient --> SeeOwnGraphs
+patient --> AddDoctor
+patient --> RemoveDoctor
+
+admin --> LogIn
+admin --> SeePatientsGraphs
+admin --> RemovePatient
+
+ChargeDevice <-- patient
+WearDevice <-- patient
+SyncDevice <-- patient
+
+@enduml
