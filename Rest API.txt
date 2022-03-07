@@ -42,7 +42,7 @@ GET /api/user/vitals/<UserID>
 
 PUT /api/user/vitals/<UserID>
 -> Token & {ECG: [<timestamp>: <value>],
-    HR: [<timestamp>: <value>]
+    SkinTemperature: [<timestamp>: <value>]
     SpO2: [<timestamp>: <value>]}
 <- HTTP Status Code
 
