@@ -1,32 +1,145 @@
-User
-----
-POST /api/user/auth/login
--> {username: "username", password: "hashed password"}
-<- User's token
+Users (Patient and Healthcare Practitioner)
+-------------------------------------------
+// Patient endpoints
 
-POST /api/user/auth/register
--> {username: "username",
-    password: "hashed password",
-    email: "",
-    name: "",
-    role: "ADMIN"|"PATIENT"}
-<- User's token
+GET /api/user/patient/{email}
+<- {
+  "id": "string",
+  "password": "stringst", // salted and hashed
+  "salt": "string",
+  "name": "string",
+  "email": "user@example.com",
+  "role": 0,
+  "vitals": {
+    "ecg": [
+      {
+        "timestamp": "2022-03-14T20:46:07.619Z",
+        "value": 0
+      }
+    ],
+    "skinTemperature": [
+      {
+        "timestamp": "2022-03-14T20:46:07.619Z",
+        "value": 0
+      }
+    ],
+    "spO2": [
+      {
+        "timestamp": "2022-03-14T20:46:07.619Z",
+        "value": 0
+      }
+    ]
+  }
+}
 
-POST /api/user/doctor/add
--> Token & {id: <UserID>}
-<- HTTP Status Code
+POST /api/user/auth/patient/login
+-> {
+  "email": "user@example.com",
+  "password": "stringst", // min 8 characters
+}
+<- {
+  "id": "string",
+  "password": "stringst", // salted and hashed
+  "salt": "string",
+  "name": "string",
+  "email": "user@example.com",
+  "role": 0,
+  "vitals": {
+    "ecg": [],
+    "skinTemperature": [],
+    "spO2": []
+  }
+}
 
-POST /api/user/doctor/remove
--> Token & {id: <UserID>}
-<- HTTP Status Code
+POST /api/user/auth/patient/register
+-> {
+  "name": "string",
+  "email": "user@example.com",
+  "password": "stringst" // min 8 characters
+}
+<- {
+  "id": "string",
+  "password": "stringst", // salted and hashed
+  "salt": "string",
+  "name": "string",
+  "email": "user@example.com",
+  "role": 0,
+  "vitals": {
+    "ecg": [
+      {
+        "timestamp": "2022-03-14T20:46:07.619Z",
+        "value": 0
+      }
+    ],
+    "skinTemperature": [
+      {
+        "timestamp": "2022-03-14T20:46:07.619Z",
+        "value": 0
+      }
+    ],
+    "spO2": [
+      {
+        "timestamp": "2022-03-14T20:46:07.619Z",
+        "value": 0
+      }
+    ]
+  }
+}
 
-POST /api/user/patient/add
--> Token & {id: <UserID>}
-<- HTTP Status Code
+POST /api/user/patient/add/{email}
+<- (HTTP Status Code 204)
 
-POST /api/user/patient/remove
--> Token & {id: <UserID>}
-<- HTTP Status Code
+POST /api/user/patient/remove/{email}
+<- (HTTP Status Code 204)
+
+// Healthcare Practitioner endpoints
+
+GET /api/user/hcp/{email}
+<- {
+  "id": "string",
+  "password": "stringst", // salted and hashed
+  "salt": "string",
+  "name": "string",
+  "email": "user@example.com",
+  "role": 1,
+  "patients": [ "patient@example.com" ]
+  }
+
+POST /api/user/auth/hcp/login
+-> {
+  "email": "user@example.com",
+  "password": "stringst", // min 8 characters
+}
+<- {
+  "id": "string",
+  "password": "stringst", // salted and hashed
+  "salt": "string",
+  "name": "string",
+  "email": "user@example.com",
+  "role": 1,
+  "patients": [ "patient@example.com" ]
+  }
+}
+
+POST /api/user/auth/hcp/register
+-> {
+  "name": "string",
+  "email": "user@example.com",
+  "password": "stringst" // min 8 characters
+}
+<- {
+  "id": "string",
+  "password": "stringst", // salted and hashed
+  "salt": "string",
+  "name": "string",
+  "email": "user@example.com",
+  "role": 1,
+  "patients": [ "patient@example.com" ]
+  }
+}
+
+POST /api/user/hcp/remove/{email}
+<- (HTTP Status Code 204)
 
 Data
 ----
